@@ -7,12 +7,16 @@ import { Fill, Icon, Style, Text } from 'ol/style';
 
 import { toRadians } from '~/utils/math';
 
-import DroneImage from '~/../assets/img/plane-icon.png';
-import DroneImageInfo from '~/../assets/img/ArmPlane.png';
+// import DroneImage from '~/../assets/img/plane-icon.png';
+// import DroneImageInfo from '~/../assets/img/ArmPlane.png';
+// import DroneImageWarning from '~/../assets/img/drone-x-black-warning-32x32.png';
+// import DroneImageError from '~/../assets/img/errorPlane.png';
+import DroneImage from '~/../assets/img/drone-x-black-32x32.png';
+import DroneImageInfo from '~/../assets/img/drone-x-black-info-32x32.png';
 import DroneImageWarning from '~/../assets/img/drone-x-black-warning-32x32.png';
-import DroneImageError from '~/../assets/img/errorPlane.png';
+import DroneImageError from '~/../assets/img/drone-x-black-error-32x32.png';
 import RvtImage from '~/../assets/img/rvt.png';
-import SelectionGlow from '~/../assets/img/GlowPlane.png';
+import SelectionGlow from '~/../assets/img/drone-selection-glow.png';
 import { Severity } from '~/model/enums';
 
 const droneImages = {

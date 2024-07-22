@@ -113,7 +113,7 @@ class MapContextMenu extends React.Component {
           const hasSelectedFeatures =
             selectedFeatureIds && selectedFeatureIds.length > 0;
 
-          if (hasSelectedUAVs) {
+          if (hasSelectedUAVs && false) {
             result.push(
               <MenuItem
                 key='fly'

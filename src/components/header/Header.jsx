@@ -93,6 +93,7 @@ const Header = ({ isSidebarOpen, showSidebar, toggleSidebar }) => (
           alignItems: 'center',
           marginTop: 8,
           marginBottom: 5,
+          color:"#fff"
         }}
       >
         Dhaksha Live

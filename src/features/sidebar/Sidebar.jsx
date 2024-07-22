@@ -68,12 +68,12 @@ const Sidebar = ({ experimentalFeaturesEnabled, isOpen, t, workbench }) => (
     <div style={innerStyle}>
       <ModuleTray allowMultipleSelection vertical workbench={workbench}>
         <Module id='map' icon={<Map />} label={t('view.map')} component='map' />
-        {/* <Module
+        <Module
           id='layers'
           icon={<Layers />}
           label={t('view.layer-list')}
           component='layer-list'
-        /> */}
+        />
         {/* {hasFeature('mapFeatures') && (
           <Module
             id='features'
@@ -96,12 +96,12 @@ const Sidebar = ({ experimentalFeaturesEnabled, isOpen, t, workbench }) => (
           label={t('view.camera')}
           component='camera'
         /> */}
-        <Module
+        {/* <Module
           id='spare-drone'
           icon={<CameraAltRounded />}
           label='Video Panel'
           component='spare'
-        />
+        /> */}
         {/* <Module
           id='locations'
           icon={<Place />}
