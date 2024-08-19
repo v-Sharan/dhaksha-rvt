@@ -1,17 +1,11 @@
 import React, {  useState } from 'react';
-import React, { useRef, useState } from 'react';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
 import './index.css';
 import messageHub from '~/message-hub';
 import store from '~/store';
 import { showNotification } from '~/features/snackbar/actions';
 import { MessageSemantics } from '~/features/snackbar/types';
 import { Button, FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
-import LongPressButton from '~/components/button/LongPressButton';
-import './index.css';
-import { Button } from '@material-ui/core';
 import LongPressButton from '~/components/button/LongPressButton';
 
 const { dispatch } = store;
@@ -112,9 +106,8 @@ const SpareDronePanel = () => {
   // const [tracking, setTracking] = useState(false);
   const [recording,setRecording] = useState(false)
  
-  const [tracking, setTracking] = useState(false);
-
-  const onCameraChange = async (id, url, ip) => {
+  const onCameraChange = async ({target}) => {
+    const {id,url} = getUrlbyIp(target.value)
     setAllCamera(false);
     setCamId(id);
     setCamUrl(url);
@@ -217,13 +210,7 @@ const SpareDronePanel = () => {
   };
 
   return (
-      <div
-        style={{
-          display: 'flex',
-          alignSelf: 'center',
-          gap: 10,
-        }}
-      >
+      <div>
       <FormControl>
         <InputLabel id='demo-simple-select-label'>Ip</InputLabel>
         <Select
@@ -266,7 +253,7 @@ const SpareDronePanel = () => {
       <Button
         disabled={!recording}
         onClick={() => {
-          setTracking(false)
+          setRecording(false)
           onButtonPress("stop_record")
         }}
       >
