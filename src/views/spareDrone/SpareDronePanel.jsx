@@ -78,30 +78,50 @@ function getUrlbyIp(ip){
 }
 
 const SpareDronePanel = () => {
-  const [camId, setCamId] = useState(video[0].id);
   const [camUrl, setCamUrl] = useState(video[0].url);
   const [allCamera, setAllCamera] = useState(false);
   const [allCamUrl, setAllCamUrl] = useState([]);
   const [gimbal, setGimbal] = useState(video[0].ip);
- 
-  // const [tracking, setTracking] = useState(false);
-  const [recording,setRecording] = useState(false)
- 
-  const onCameraChange = async ({target}) => {
-    const {id,url} = getUrlbyIp(target.value)
+  const [gimbalControl, setGimbalControl] = useState(video[0].ip);
+  const [tracking, setTracking] = useState(false);
+  const [record, setRecording] = useState(false);
+
+  const onCameraChange = async ({ target }) => {
+    const { id, url } = getUrlbyIp(target.value);
+    if (id === 11) {
+      setAllCamera(true);
+      setAllCamUrl([
+        'http://172.29.181.42:8000/video1',
+        'http://172.29.181.42:8000/video2',
+        'http://172.29.181.42:8000/video3',
+        'http://172.29.181.42:8000/video4',
+        'http://172.29.181.42:8000/video5',
+        'http://172.29.181.42:8000/video6',
+        'http://172.29.181.42:8000/video7',
+        'http://172.29.181.42:8000/video8',
+        'http://172.29.181.42:8000/video9',
+        'http://172.29.181.42:8000/video10',
+      ]);
+      setGimbal(target.value);
+      if (target.value === 'All Camera') {
+        setGimbalControl('192.168.6.121');
+        return;
+      }
+      setGimbalControl(target.value);
+    }
     setAllCamera(false);
-    setCamId(id);
     setCamUrl(url);
+    setGimbalControl(target.value);
     setGimbal(target.value);
   };
 
   const onButtonPress = async (msg) => {
- 
+    // if (allCamera) return;
     try {
       const res = await messageHub.sendMessage({
         type: 'X-Camera-MISSION',
         message: msg,
-        ip: gimbal,
+        ip: gimbalControl,
       });
 
       if (!Boolean(res?.body?.message)) {
@@ -121,14 +141,14 @@ const SpareDronePanel = () => {
       );
     }
   };
- 
+
   const handleDoubleClick = async (event) => {
     if (tracking) {
       dispatch(
         showNotification({
           message: `Tracking is already enabled`,
           semantics: MessageSemantics.INFO,
-         })
+        })
       );
       return;
     }
@@ -136,7 +156,7 @@ const SpareDronePanel = () => {
 
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
- 
+
     try {
       const res = await messageHub.sendMessage({
         type: 'X-Camera-MISSION',
@@ -165,19 +185,17 @@ const SpareDronePanel = () => {
     } catch (e) {
       dispatch(
         showNotification({
-          message: `${e.message} Command is Failed`,
+          message: `${e} Command is Failed`,
           semantics: MessageSemantics.ERROR,
         })
       );
     }
   };
- 
 
   const imageStyle = {
-    width: '150px',
-    height: '150px',
+    width: '250px',
+    height: '250px',
     objectFit: 'cover',
-    borderRadius: '10px',
     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
     margin: '5px',
   };
@@ -185,95 +203,120 @@ const SpareDronePanel = () => {
   const gridStyle = {
     display: 'flex',
     flexWrap: 'wrap',
-    gap: '10px',
+    gap: '5px',
     justifyContent: 'center',
-    padding: '20px',
+    padding: '15px',
   };
 
   return (
-      <div>
-      <FormControl>
-        <InputLabel id='demo-simple-select-label'>Ip</InputLabel>
-        <Select
-          id='demo-simple-select-label'
-          onChange={onCameraChange}
-          value={gimbal}
+    <Fragment>
+      <div
+        style={{
+          display: 'flex',
+          alignSelf: 'center',
+          gap: 10,
+        }}
+      >
+        <FormControl>
+          <InputLabel id='demo-simple-select-label'>Ip</InputLabel>
+          <Select
+            id='demo-simple-select-label'
+            onChange={onCameraChange}
+            value={gimbal}
+          >
+            {video.map(({ id, ip, name, url }) => (
+              <MenuItem value={ip} name={url}>
+                {ip}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <LongPressButton
+          onLongPress={onButtonPress.bind(this, 'zoom_in')}
+          onLongPressEnd={onButtonPress.bind(this, 'zoom_stop')}
         >
-          {video.map(({ id, ip, name, url }) => (
-            <MenuItem value={ip} name={url}>
-              {ip}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-      <LongPressButton
-        onLongPress={onButtonPress.bind(this, 'zoom_in')}
-        onLongPressEnd={onButtonPress.bind(this, 'zoom_stop')}
-        />
-      <LongPressButton
-        onLongPress={onButtonPress.bind(this, 'zoom_in')}
-        onLongPressEnd={onButtonPress.bind(this, 'zoom_stop')}
-      >
-        Zoom in
-      </LongPressButton>
-      <LongPressButton
-        onLongPress={onButtonPress.bind(this, 'zoom_out')}
-        onLongPressEnd={onButtonPress.bind(this, 'zoom_stop')}
-      >
-        Zoom out
-      </LongPressButton>
-      <Button
-        disabled={recording}
-        onClick={() => {
-          setRecording(true);
-          onButtonPress("start_record")
-        }}
-      >
-        start Recording
-      </Button>
-      <Button
-        disabled={!recording}
-        onClick={() => {
-          setRecording(false)
-          onButtonPress("stop_record")
-        }}
-      >
-        Stop Recording
-      </Button>
-      <LongPressButton
+          Zoom in
+        </LongPressButton>
+        <LongPressButton
+          onLongPress={onButtonPress.bind(this, 'zoom_out')}
+          onLongPressEnd={onButtonPress.bind(this, 'zoom_stop')}
+        >
+          Zoom out
+        </LongPressButton>
+        <LongPressButton
           onLongPress={onButtonPress.bind(this, 'up')}
           onLongPressEnd={onButtonPress.bind(this, 'stop')}
-      >
-        Up
-      </LongPressButton>
-      <LongPressButton
+        >
+          Up
+        </LongPressButton>
+        <LongPressButton
           onLongPress={onButtonPress.bind(this, 'left')}
           onLongPressEnd={onButtonPress.bind(this, 'stop')}
-      >
-        Left
-      </LongPressButton>
-      <Button onClick={onButtonPress.bind(this, 'home')}>HOME</Button>
-      <LongPressButton
+        >
+          Left
+        </LongPressButton>
+        <Button onClick={onButtonPress.bind(this, 'home')}>HOME</Button>
+        <LongPressButton
           onLongPress={onButtonPress.bind(this, 'right')}
           onLongPressEnd={onButtonPress.bind(this, 'stop')}
-      >
-        RIGHT
-      </LongPressButton>
-      <LongPressButton
+        >
+          RIGHT
+        </LongPressButton>
+        <LongPressButton
           onLongPress={onButtonPress.bind(this, 'down')}
           onLongPressEnd={onButtonPress.bind(this, 'stop')}
-      >
-        Down
-      </LongPressButton>
-      <img
-        style={{
-          width: '1000px',
-          height: '600px',
-        }}
-        onDoubleClick={handleDoubleClick}
-        src={`${camUrl}?random=${Math.random()}`}
-      />
-    </div>
+        >
+          Down
+        </LongPressButton>
+        <Button
+          onClick={() => {
+            onButtonPress('start_record');
+            setRecording(true);
+          }}
+        >
+          Start Recording
+        </Button>
+        <Button
+          onClick={() => {
+            onButtonPress('stop_record');
+            setRecording(false);
+          }}
+        >
+          Stop Recording
+        </Button>
+      </div>
+      <div style={{ display: 'flex' }}>
+        <div style={gridStyle}>
+          {allCamera ? (
+            allCamUrl.length != 0 &&
+            allCamUrl.map((url, i) => (
+              <img
+                id={i}
+                style={imageStyle}
+                src={url}
+                onClick={() => {
+                  dispatch(
+                    showNotification({
+                      message: `192.168.6.${120 + i + 1}`,
+                    })
+                  );
+                  setGimbalControl(`192.168.6.${120 + i + 1}`);
+                }}
+              />
+            ))
+          ) : (
+            <img
+              style={{
+                width: '1180px',
+                height: '620px',
+              }}
+              onDoubleClick={handleDoubleClick}
+              src={camUrl}
+            />
+          )}
+        </div>
+      </div>
+    </Fragment>
   );
 };
 
