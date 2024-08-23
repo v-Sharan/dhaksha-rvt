@@ -15,77 +15,58 @@ const video = [
     id: 1,
     name: 'Camera 1',
     url: 'http://172.29.181.42:8000/video1',
-    url: 'http://172.20.67.44:8000/video1',
     ip: '192.168.6.121',
   },
   {
     id: 2,
     name: 'Camera 2',
     url: 'http://172.29.181.42:8000/video2',
-    url: 'http://172.20.67.44:8000/video2',
     ip: '192.168.6.122',
   },
   {
     id: 3,
     name: 'Camera 3',
     url: 'http://172.29.181.42:8000/video3',
-    url: 'http://172.20.67.44:8000/video3',
     ip: '192.168.6.123',
   },
   {
     id: 4,
     name: 'Camera 4',
     url: 'http://172.29.181.42:8000/video4',
-    url: 'http://172.20.67.44:8000/video4',
     ip: '192.168.6.124',
   },
   {
     id: 5,
     name: 'Camera 5',
     url: 'http://172.29.181.42:8000/video5',
-    url: 'http://172.20.67.44:8000/video5',
     ip: '192.168.6.125',
   },  {
     id: 6,
     name: 'Camera 6',
     url: 'http://172.29.181.42:8000/video6',
-    url: 'http://172.20.67.44:8000/video6',
     ip: '192.168.6.126',
   },
   {
     id: 7,
     name: 'Camera 7',
- 
-    url: 'http://172.29.181.42:8000/video7',
- 
-    url: 'http://172.20.67.44:8000/video7',
- 
+    url: 'http://172.29.181.42:8000/video7', 
     ip: '192.168.6.127',
   },
   {
     id: 8,
     name: 'Camera 8',
- 
     url: 'http://172.29.181.42:8000/video8',
- 
-    url: 'http://172.20.67.44:8000/video8',
- 
     ip: '192.168.6.128',
   },
   {
     id: 9,
     name: 'Camera 9',
- 
-    url: 'http://172.29.181.42:8000/video9',
- 
-    url: 'http://172.20.67.44:8000/video9',
- 
+    url: 'http://172.29.181.42:8000/video9', 
     ip: '192.168.6.129',
   },
   {
     id: 10,
     name: 'Camera 10',
- 
     url: 'http://172.29.181.42:8000/video10',
     ip: '192.168.6.130',
   },
